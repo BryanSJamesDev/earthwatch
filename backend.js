@@ -11,6 +11,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static("./frontend/dist"));
 app.use("/api/stations", stationsRouter);
+// catch all sends index.html for any other GET request
+app.get("/{*splat}", (req, res) => {
+  res.sendFile("index.html", { root: "./frontend/dist" });
+});
 
 // connection to database
 await connectDB();
