@@ -19,7 +19,7 @@ export default function StationsPage() {
       // parse body
       const data = await res.json();
       // save it. triggers the re-render
-      setStations(data);
+      setStations(data.stations);
     };
 
     // call async function to load stations
