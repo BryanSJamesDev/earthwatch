@@ -4,16 +4,16 @@
   "description": "",
   "main": "backend.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --watch backend.js"
+    "dev": "node --watch backend.js",
+    "start": "node backend.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mimiperezg/earthwatch.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Milena Perez-Gerus and Rishabh Kumar",
+  "license": "MIT",
   "type": "module",
   "bugs": {
     "url": "https://github.com/mimiperezg/earthwatch/issues"

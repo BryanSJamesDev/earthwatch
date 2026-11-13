@@ -10,7 +10,7 @@ const stations = [
 ];
 
 // GET /stations - retrieves all stations
-router.get("/stations", (req, res) => {
+router.get("/", (req, res) => {
   res.json(stations);
 });
 
