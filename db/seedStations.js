@@ -31,9 +31,6 @@ const STATION_TYPES = {
   },
 };
 
-// 15% of readings fall outside normal range
-const OUT_OF_RANGE = 0.15;
-
 // read stations data from JSON file
 const stationsFileUrl = new URL("./data/stations.json", import.meta.url);
 // get file contents as text
@@ -71,7 +68,6 @@ await connectDB();
 // create full stations with mockaroo and seed data
 const fullStations = stations.map((station) => {
   const config = STATION_TYPES[station.type];
-  const readings = makeReadings(config);
   return {
     ...station,
     name: `${station.city} Monitoring Station`,
