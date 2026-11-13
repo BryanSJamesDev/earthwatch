@@ -5,7 +5,8 @@
   "main": "backend.js",
   "scripts": {
     "dev": "node --watch backend.js",
-    "start": "node backend.js"
+    "start": "node backend.js",
+    "seed:stations": "node db/seedStations.js"
   },
   "repository": {
     "type": "git",
