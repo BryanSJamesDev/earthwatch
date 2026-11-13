@@ -1,17 +1,22 @@
 import express from "express";
+import { getDB } from "../db/connection.js";
 
 const router = express.Router();
 
-// sample data for station monitor
-const stations = [
-  { id: 1, name: "Station A", location: "Location A" },
-  { id: 2, name: "Station B", location: "Location B" },
-  { id: 3, name: "Station C", location: "Location C" },
-];
+// GET /api/stations - list stations (without readings)
+router.get("/", async (req, res) => {
+  try {
+    const stations = await getDB()
+      .collection("stations")
+      .find({})
+      .project({ readings: 0 })
+      .limit(20)
+      .toArray();
 
-// GET /stations - retrieves all stations
-router.get("/", (req, res) => {
-  res.json(stations);
+    res.json(stations);
+  } catch (err) {
+    console.error("Error fetching stations:", err);
+    res.status(500).json({ error: "Failed to fetch stations" });
+  }
 });
-
 export default router;

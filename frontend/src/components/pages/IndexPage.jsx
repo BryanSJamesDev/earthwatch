@@ -31,7 +31,7 @@ export default function IndexPage() {
       <h1>Welcome to Earthwatch</h1>
       <ul>
         {stations.map((station) => (
-          <li key={station.id}>{station.name}</li>
+          <li key={station._id}>{station.name}</li>
         ))}
       </ul>
     </div>
