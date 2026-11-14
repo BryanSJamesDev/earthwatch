@@ -76,7 +76,7 @@ TODO (Rishabh)
    cd earthwatch
 ```
 
-2. Install the backend dependencies:
+2. Install the dependencies:
 
 ```bash
    npm install
@@ -88,16 +88,7 @@ TODO (Rishabh)
    docker run --name mongodb -p 27017:27017 -v mongodata:/data/db -d mongodb/mongodb-community-server:latest
 ```
 
-4. Add the mock data. This creates 1,200 events in the `events` collection of the `earthwatch` database:
-
-```bash
-   npm run seed:events -- --insert
-```
-
-You can also import `data/events.json` with MongoDB Compass into a collection named `events` in a database named `earthwatch`.
-
-TODO (Milena): seed stations
-
+4. Import the mock data: in MongoDB Compass, connect to `mongodb://localhost:27017`, create a database named `earthwatch` with a collection named `events`, and import `data/events.json` (1,200 synthetic events). TODO (Milena): seed stations
 5. Build the frontend and start the server:
 
 ```bash
@@ -109,12 +100,9 @@ TODO (Milena): seed stations
 
 ```bash
    MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/
-   SESSION_SECRET=any-long-random-string
 ```
 
-`SESSION_SECRET` is required when `NODE_ENV=production`.
-
-To work on the code, run `npm run dev` in the project folder (restarts the server when files change) and `npm run dev` in the `frontend` folder at the same time, then open the address Vite prints (usually [http://localhost:5173](http://localhost:5173)). Vite forwards `/api` requests to the Express server on port 3000.
+Use `npm run dev` instead of `npm start` to restart the server automatically when files change.
 
 The events in `data/events.json` are synthetic. The places are real locations where each type of event happens, but the events themselves, their dates, and their details are made up.
 
