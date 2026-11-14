@@ -1,0 +1,78 @@
+import { useEffect, useState } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { apiFetch } from "./api.js";
+import NavBar from "./components/NavBar.jsx";
+import RequireAuth from "./components/RequireAuth.jsx";
+import AuthPage from "./pages/AuthPage.jsx";
+import EventsPage from "./pages/EventsPage.jsx";
+import EventDetailPage from "./pages/EventDetailPage.jsx";
+import EventFormPage from "./pages/EventFormPage.jsx";
+import SummaryPage from "./pages/SummaryPage.jsx";
+import NotFoundPage from "./pages/NotFoundPage.jsx";
+// TODO (Milena): station pages
+import "./App.css";
+
+export default function App() {
+  // undefined while checking the session, null when logged out
+  const [user, setUser] = useState(undefined);
+
+  useEffect(() => {
+    apiFetch("/auth/me")
+      .then((data) => setUser(data.user))
+      .catch(() => setUser(null));
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await apiFetch("/auth/logout", { method: "POST" });
+    } finally {
+      setUser(null);
+    }
+  };
+
+  return (
+    <div className="app">
+      <NavBar user={user} onLogout={handleLogout} />
+      <main className="app-main">
+        <Routes>
+          {/* TODO (Milena): home page */}
+          <Route path="/" element={<Navigate to="/events" replace />} />
+          <Route
+            path="/login"
+            element={<AuthPage mode="login" onAuth={setUser} />}
+          />
+          <Route
+            path="/register"
+            element={<AuthPage mode="register" onAuth={setUser} />}
+          />
+
+          <Route path="/events" element={<EventsPage user={user} />} />
+          <Route path="/events/summary" element={<SummaryPage />} />
+          <Route
+            path="/events/new"
+            element={
+              <RequireAuth user={user}>
+                <EventFormPage user={user} />
+              </RequireAuth>
+            }
+          />
+          <Route path="/events/:id" element={<EventDetailPage user={user} />} />
+          <Route
+            path="/events/:id/edit"
+            element={
+              <RequireAuth user={user}>
+                <EventFormPage user={user} />
+              </RequireAuth>
+            }
+          />
+
+          {/* TODO (Milena): station routes */}
+
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </main>
+    </div>
+  );
+}
+
+App.propTypes = {};
