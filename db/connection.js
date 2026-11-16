@@ -1,19 +1,14 @@
 import { MongoClient } from "mongodb";
 
-let db;
+const URI = process.env.MONGODB_URI || "mongodb://localhost:27017";
+export const DB_NAME = "earthwatch";
 
-export const connectDB = async () => {
-  const URI = process.env.MONGODB_URI;
-  // if uri missing
-  if (!URI) {
-    throw new Error("MONGODB_URI is not defined");
-  }
-  // create client with uri
-  const client = new MongoClient(URI);
-  // connect to the database
-  await client.connect();
-  db = client.db("earthwatch");
-  console.log("connected to mongoDB");
+// one client for the whole app. sessions keep a connection open anyway,
+// so opening a new client on every request would only add latency
+export const client = new MongoClient(URI);
+export const clientPromise = client.connect();
+
+export const getDB = async () => {
+  await clientPromise;
+  return client.db(DB_NAME);
 };
-
-export const getDB = () => db;

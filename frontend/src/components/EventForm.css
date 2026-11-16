@@ -1,0 +1,36 @@
+.event-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem 1.25rem;
+  padding: 1.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.event-form .error-message {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.event-form-full {
+  grid-column: 1 / -1;
+}
+
+.event-form textarea {
+  resize: vertical;
+}
+
+.event-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+@media (max-width: 600px) {
+  .event-form {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+}

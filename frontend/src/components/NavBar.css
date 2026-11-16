@@ -1,23 +1,121 @@
 .navbar {
-  padding: 1rem;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow);
+}
+
+.navbar-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.6rem 1rem;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
-.navbar ul {
+.navbar-brand {
   display: flex;
-  list-style: none;
-  gap: 1rem;
-  padding: 0;
-  margin: 0;
-}
-
-.navbar a {
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text);
   text-decoration: none;
-  color: black;
 }
 
-.navbar a.active {
-  font-weight: bold;
+.navbar-menu {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links a,
+.navbar-account > a:not(.btn) {
+  display: block;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius);
+  color: var(--color-muted);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.navbar-links a:hover,
+.navbar-account > a:not(.btn):hover {
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+.navbar-links a.active,
+.navbar-account > a.active {
+  color: var(--color-primary-text);
+  background: var(--color-primary-soft);
+}
+
+.navbar-account {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.navbar-user {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.navbar-btn {
+  padding: 0.35rem 0.85rem;
+}
+
+.navbar-toggle {
+  display: none;
+  margin-left: auto;
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: transparent;
+  cursor: pointer;
+}
+
+.navbar-toggle-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  margin: 4px 0;
+  background: var(--color-text);
+}
+
+@media (max-width: 720px) {
+  .navbar-toggle {
+    display: block;
+  }
+
+  .navbar-menu {
+    display: none;
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .navbar-menu-open {
+    display: flex;
+  }
+
+  .navbar-links {
+    flex-direction: column;
+  }
+
+  .navbar-account {
+    flex-wrap: wrap;
+  }
 }

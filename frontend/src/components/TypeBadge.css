@@ -1,0 +1,34 @@
+.type-badge {
+  display: inline-block;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-text);
+  background: var(--color-border);
+}
+
+.type-badge-wildfire {
+  background: #f0c9b0;
+  color: #7a3215;
+}
+
+.type-badge-flood {
+  background: #cddbe0;
+  color: #2d4954;
+}
+
+.type-badge-earthquake {
+  background: #e5d4bd;
+  color: #5a3f26;
+}
+
+.type-badge-storm {
+  background: #d9d9e0;
+  color: #3c4050;
+}
+
+.type-badge-volcano {
+  background: #ecc1b6;
+  color: #6c2216;
+}

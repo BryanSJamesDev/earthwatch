@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { connectDB, getDB } from "./connection.js";
+import { getDB, client } from "./connection.js";
 import { readFile } from "fs/promises";
 import { ObjectId } from "mongodb";
 
@@ -54,7 +54,7 @@ const makeReadings = (config) => {
   for (let i = 0; i < count; i++) {
     readings.push({
       _id: new ObjectId(),
-      value: randomBetween(config.normalMin, config.normalMax),
+      value: randomBetween(config.possibleMin, config.possibleMax),
       date: new Date(Date.now() - Math.random() * 60 * MS_PER_DAY),
       notes: "",
     });
@@ -63,7 +63,7 @@ const makeReadings = (config) => {
 };
 
 // connect
-await connectDB();
+const db = await getDB();
 
 // create full stations with mockaroo and seed data
 const fullStations = stations.map((station) => {
@@ -80,10 +80,10 @@ const fullStations = stations.map((station) => {
 });
 
 // clear old stations
-const stationsCollection = getDB().collection("stations");
+const stationsCollection = db.collection("stations");
 await stationsCollection.deleteMany({});
 // insert new stations
 const result = await stationsCollection.insertMany(fullStations);
 console.log(`Inserted ${result.insertedCount} stations`);
 
-process.exit(0);
+await client.close();

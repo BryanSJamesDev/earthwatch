@@ -1,21 +1,45 @@
-import js from "@eslint/js";
 import globals from "globals";
+import js from "@eslint/js";
 import reactHooks from "eslint-plugin-react-hooks";
-import reactRefresh from "eslint-plugin-react-refresh";
-import { defineConfig, globalIgnores } from "eslint/config";
+import eslintConfigPrettier from "eslint-config-prettier";
+import prettier from "eslint-plugin-prettier";
 
-export default defineConfig([
-  globalIgnores(["dist"]),
+export default [
+  { ignores: ["dist/**"] },
+  reactHooks.configs.flat.recommended,
   {
     files: ["**/*.{js,jsx}"],
-    extends: [
-      js.configs.recommended,
-      reactHooks.configs.flat.recommended,
-      reactRefresh.configs.vite,
-    ],
+
     languageOptions: {
-      globals: globals.browser,
-      parserOptions: { ecmaFeatures: { jsx: true } },
+      ecmaVersion: "latest",
+      sourceType: "module",
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.es2025,
+      },
+    },
+    plugins: {
+      prettier: prettier,
+    },
+
+    rules: {
+      ...js.configs.recommended.rules,
+
+      // Prettier integration - this runs Prettier through ESLint
+      "prettier/prettier": [
+        "error",
+        {
+          endOfLine: "lf",
+          trailingComma: "es5",
+          singleQuote: false,
+        },
+      ],
     },
   },
-]);
+  eslintConfigPrettier,
+];

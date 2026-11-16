@@ -31,7 +31,8 @@ router.get("/", async (req, res) => {
 
     // pagination size
     const PAGE_SIZE = 20;
-    const collection = getDB().collection("stations");
+    const db = await getDB();
+    const collection = db.collection("stations");
 
     // get one page of matching stations
     const stations = await collection

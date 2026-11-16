@@ -1,4 +1,6 @@
-node_modules
-frontend/dist
-package_lock.json
-db/data
+# generated seed data and the built frontend
+data/
+db/data/
+frontend/dist/
+package-lock.json
+frontend/package-lock.json
