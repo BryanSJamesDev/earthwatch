@@ -68,8 +68,11 @@ export default function App() {
             }
           />
 
-          <Route path="/stations" element={<StationsPage />} />
-          <Route path="/stations/:id" element={<StationDetailPage />} />
+          <Route path="/stations" element={<StationsPage user={user} />} />
+          <Route
+            path="/stations/:id"
+            element={<StationDetailPage user={user} />}
+          />
           <Route
             path="/stations/new"
             element={

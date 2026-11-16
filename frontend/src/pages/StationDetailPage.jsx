@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import PropTypes from "prop-types";
+import { userShape } from "../propShapes.js";
 import ReadingTable from "../components/ReadingTable.jsx";
 
-export default function StationDetailPage() {
+export default function StationDetailPage({ user }) {
   // reads the id part of the URL
   const { id } = useParams();
   const [station, setStation] = useState(null);
@@ -44,6 +46,9 @@ export default function StationDetailPage() {
     return <div>Loading...</div>;
   }
 
+  // does the viewer own this station
+  const isOwner = user && station.ownerId === user._id;
+
   // show the station
   return (
     <div>
@@ -56,6 +61,10 @@ export default function StationDetailPage() {
         Normal Range: {station.normalMin} to {station.normalMax} {station.unit}
       </p>
 
+      {isOwner && (
+        <Link to={`/stations/${station._id}/edit`}>Edit station</Link>
+      )}
+
       <h2>Readings ({station.readings.length})</h2>
       <ReadingTable
         readings={station.readings}
@@ -66,3 +75,7 @@ export default function StationDetailPage() {
     </div>
   );
 }
+
+StationDetailPage.propTypes = {
+  user: userShape,
+};

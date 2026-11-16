@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { userShape } from "../propShapes.js";
 
+StationsPage.propTypes = {
+  user: userShape,
+};
 const PAGE_SIZE = 20;
 
-export default function StationsPage() {
+export default function StationsPage({ user }) {
   // data from the server
   const [stations, setStations] = useState([]);
   const [total, setTotal] = useState(0);
@@ -49,6 +54,7 @@ export default function StationsPage() {
   return (
     <div>
       <h1>Stations</h1>
+      {user && <Link to="/stations/new">+ Add station</Link>}
 
       <input
         type="search"
