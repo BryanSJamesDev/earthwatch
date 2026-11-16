@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const PAGE_SIZE = 20;
 
@@ -87,7 +88,8 @@ export default function StationsPage() {
       <ul>
         {stations.map((station) => (
           <li key={station._id}>
-            {station.name} ({station.state}), {station.type}
+            <Link to={`/stations/${station._id}`}>{station.name}</Link> (
+            {station.state}), {station.type}
           </li>
         ))}
       </ul>

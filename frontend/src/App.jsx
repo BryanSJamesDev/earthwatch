@@ -10,6 +10,7 @@ import EventFormPage from "./pages/EventFormPage.jsx";
 import SummaryPage from "./pages/SummaryPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 import StationsPage from "./pages/StationsPage.jsx";
+import StationDetailPage from "./pages/StationDetailPage.jsx";
 import "./App.css";
 
 export default function App() {
@@ -67,6 +68,7 @@ export default function App() {
           />
 
           <Route path="/stations" element={<StationsPage />} />
+          <Route path="/stations/:id" element={<StationDetailPage />} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
