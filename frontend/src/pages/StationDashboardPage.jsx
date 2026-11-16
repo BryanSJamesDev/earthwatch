@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./StationDashboardPage.css";
+import { STATION_TYPE_LABELS } from "../StationTypes";
 
 export default function StationDashboardPage() {
   const [range, setRange] = useState("week");
@@ -78,7 +79,7 @@ export default function StationDashboardPage() {
                 <td>
                   {station.city}, {station.state}
                 </td>
-                <td>{station.type}</td>
+                <td>{STATION_TYPE_LABELS[station.type]}</td>
                 <td>{station.outOfRangeCount}</td>
               </tr>
             ))}

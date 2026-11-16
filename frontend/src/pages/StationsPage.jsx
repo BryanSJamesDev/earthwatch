@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { userShape } from "../propShapes.js";
+import "./StationsPage.css";
+import { STATION_TYPE_LABELS } from "../StationTypes.js";
 
 StationsPage.propTypes = {
   user: userShape,
@@ -54,39 +56,40 @@ export default function StationsPage({ user }) {
     <div>
       <h1>Stations</h1>
       {user && <Link to="/stations/new">+ Add station</Link>}
+      <div className="station-filters">
+        <input
+          type="search"
+          placeholder="search by city"
+          value={q}
+          onChange={(e) => {
+            setQ(e.target.value);
+            setPage(1);
+          }}
+        />
 
-      <input
-        type="search"
-        placeholder="search by state or city"
-        value={q}
-        onChange={(e) => {
-          setQ(e.target.value);
-          setPage(1);
-        }}
-      />
+        <select
+          value={type}
+          onChange={(e) => {
+            setType(e.target.value);
+            setPage(1);
+          }}
+        >
+          <option value="">All Types</option>
+          <option value="air_quality">Air Quality</option>
+          <option value="water_level">Water Level</option>
+          <option value="temperature">Temperature</option>
+        </select>
 
-      <select
-        value={type}
-        onChange={(e) => {
-          setType(e.target.value);
-          setPage(1);
-        }}
-      >
-        <option value="">All Types</option>
-        <option value="air_quality">Air Quality</option>
-        <option value="water_level">Water Level</option>
-        <option value="temperature">Temperature</option>
-      </select>
-
-      <input
-        type="text"
-        placeholder="filter by state"
-        value={state}
-        onChange={(e) => {
-          setState(e.target.value);
-          setPage(1);
-        }}
-      />
+        <input
+          type="text"
+          placeholder="filter by state"
+          value={state}
+          onChange={(e) => {
+            setState(e.target.value);
+            setPage(1);
+          }}
+        />
+      </div>
 
       <p>{total} stations found</p>
 
@@ -94,7 +97,7 @@ export default function StationsPage({ user }) {
         {stations.map((station) => (
           <li key={station._id}>
             <Link to={`/stations/${station._id}`}>{station.name}</Link> (
-            {station.state}), {station.type}
+            {station.state}), {STATION_TYPE_LABELS[station.type]}
           </li>
         ))}
       </ul>

@@ -4,6 +4,7 @@ import { userShape } from "../propShapes.js";
 import ReadingTable from "../components/ReadingTable.jsx";
 import ReadingForm from "../components/ReadingForm.jsx";
 import ConfirmDialog from "../components/ConfirmDialog.jsx";
+import { STATION_TYPE_LABELS } from "../StationTypes.js";
 
 export default function StationDetailPage({ user }) {
   // reads the id part of the URL
@@ -131,7 +132,7 @@ export default function StationDetailPage({ user }) {
       <Link to="/stations">Back to Stations</Link>
       <h1>{station.name}</h1>
       <p>
-        {station.city}, {station.state} - {station.type}
+        {station.city}, {station.state} - {STATION_TYPE_LABELS[station.type]}
       </p>
       <p>
         Normal Range: {station.normalMin} to {station.normalMax} {station.unit}
