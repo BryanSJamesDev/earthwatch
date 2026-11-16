@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
 import { userShape } from "../propShapes.js";
 import ReadingTable from "../components/ReadingTable.jsx";
 import ReadingForm from "../components/ReadingForm.jsx";
