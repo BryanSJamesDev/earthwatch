@@ -41,3 +41,24 @@ export const getStation = async (id) => {
   const db = await getDB();
   return db.collection("stations").findOne({ _id: new ObjectId(id) });
 };
+
+// create station
+export const createStation = async (station) => {
+  const db = await getDB();
+  const result = await db.collection("stations").insertOne(station);
+  return result.insertedId;
+};
+
+// update a station
+export const updateStation = async (id, updates) => {
+  const db = await getDB();
+  return db
+    .collection("stations")
+    .updateOne({ _id: new ObjectId(id) }, { $set: updates });
+};
+
+// delete station
+export const deleteStation = async (id) => {
+  const db = await getDB();
+  return db.collection("stations").deleteOne({ _id: new ObjectId(id) });
+};
