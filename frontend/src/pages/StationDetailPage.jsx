@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import ReadingTable from "../components/ReadingTable.jsx";
 
 export default function StationDetailPage() {
   // reads the id part of the URL
@@ -56,6 +57,12 @@ export default function StationDetailPage() {
       </p>
 
       <h2>Readings ({station.readings.length})</h2>
+      <ReadingTable
+        readings={station.readings}
+        normalMin={station.normalMin}
+        normalMax={station.normalMax}
+        unit={station.unit}
+      />
     </div>
   );
 }

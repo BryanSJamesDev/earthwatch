@@ -1,0 +1,16 @@
+.reading-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.reading-table th,
+.reading-table td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.reading-table .out-of-range {
+  background-color: #f8c9c9;
+  font-weight: bold;
+}
