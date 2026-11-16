@@ -57,6 +57,11 @@ export default function NavBar({ user, onLogout }) {
                 Stations
               </NavLink>
             </li>
+            <li>
+              <NavLink to="/stations/dashboard" onClick={closeMenu}>
+                Station Dashboard
+              </NavLink>
+            </li>
           </ul>
 
           {/* nothing until the session check finishes, so it doesn't flicker */}

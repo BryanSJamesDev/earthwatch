@@ -1,0 +1,24 @@
+.reading-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.reading-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.reading-form-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.reading-form-error {
+  width: 100%;
+  color: #8b1a1a;
+  font-weight: bold;
+}

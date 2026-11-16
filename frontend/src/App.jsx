@@ -12,6 +12,7 @@ import NotFoundPage from "./pages/NotFoundPage.jsx";
 import StationsPage from "./pages/StationsPage.jsx";
 import StationDetailPage from "./pages/StationDetailPage.jsx";
 import StationFormPage from "./pages/StationFormPage.jsx";
+import StationDashboardPage from "./pages/StationDashboardPage.jsx";
 import "./App.css";
 
 export default function App() {
@@ -88,6 +89,10 @@ export default function App() {
                 <StationFormPage />
               </RequireAuth>
             }
+          />
+          <Route
+            path="/stations/dashboard"
+            element={<StationDashboardPage />}
           />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

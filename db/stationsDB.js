@@ -2,7 +2,7 @@ import { getDB } from "./connection.js";
 import { ObjectId } from "mongodb";
 
 const PAGE_SIZE = 20;
-
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
 // one page of stations matching the filters (without readings),
 // plus the total for pagination
 export const getStations = async ({ type, state, q, page = 1 }) => {
@@ -61,4 +61,81 @@ export const updateStation = async (id, updates) => {
 export const deleteStation = async (id) => {
   const db = await getDB();
   return db.collection("stations").deleteOne({ _id: new ObjectId(id) });
+};
+
+export const addReading = async (stationId, reading) => {
+  const db = await getDB();
+  await db
+    .collection("stations")
+    .updateOne(
+      { _id: new ObjectId(stationId) },
+      { $push: { readings: reading } }
+    );
+};
+
+// returns false if the reading doesn't exist on this station
+export const updateReading = async (stationId, readingId, updates) => {
+  const db = await getDB();
+  const result = await db.collection("stations").updateOne(
+    {
+      _id: new ObjectId(stationId),
+      "readings._id": new ObjectId(readingId),
+    },
+    {
+      $set: {
+        "readings.$.value": updates.value,
+        "readings.$.date": updates.date,
+        "readings.$.notes": updates.notes,
+      },
+    }
+  );
+  return result.matchedCount > 0;
+};
+
+// returns false if the reading doesn't exist on this station
+export const deleteReading = async (stationId, readingId) => {
+  const db = await getDB();
+  const result = await db
+    .collection("stations")
+    .updateOne(
+      { _id: new ObjectId(stationId) },
+      { $pull: { readings: { _id: new ObjectId(readingId) } } }
+    );
+  return result.modifiedCount > 0;
+};
+
+// stations with the most out-of-range readings in the last days
+export const getOutOfRangeStations = async (days, limit = 10) => {
+  const since = new Date(Date.now() - days * MS_PER_DAY);
+  const db = await getDB();
+
+  return db
+    .collection("stations")
+    .aggregate([
+      { $unwind: "$readings" },
+      { $match: { "readings.date": { $gte: since } } },
+      {
+        $match: {
+          $expr: {
+            $or: [
+              { $lt: ["$readings.value", "$normalMin"] },
+              { $gt: ["$readings.value", "$normalMax"] },
+            ],
+          },
+        },
+      },
+      {
+        $group: {
+          _id: "$_id",
+          name: { $first: "$name" },
+          city: { $first: "$city" },
+          state: { $first: "$state" },
+          type: { $first: "$type" },
+          outOfRangeCount: { $sum: 1 },
+        },
+      },
+      { $sort: { outOfRangeCount: -1, name: 1 } },
+      { $limit: limit },
+    ])
+    .toArray();
 };
