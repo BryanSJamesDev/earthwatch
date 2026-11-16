@@ -9,7 +9,7 @@ import EventDetailPage from "./pages/EventDetailPage.jsx";
 import EventFormPage from "./pages/EventFormPage.jsx";
 import SummaryPage from "./pages/SummaryPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
-// TODO (Milena): station pages
+import StationsPage from "./pages/StationsPage.jsx";
 import "./App.css";
 
 export default function App() {
@@ -66,7 +66,7 @@ export default function App() {
             }
           />
 
-          {/* TODO (Milena): station routes */}
+          <Route path="/stations" element={<StationsPage />} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

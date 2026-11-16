@@ -52,7 +52,11 @@ export default function NavBar({ user, onLogout }) {
                 Event Summary
               </NavLink>
             </li>
-            {/* TODO (Milena): station links */}
+            <li>
+              <NavLink to="/stations" end onClick={closeMenu}>
+                Stations
+              </NavLink>
+            </li>
           </ul>
 
           {/* nothing until the session check finishes, so it doesn't flicker */}
