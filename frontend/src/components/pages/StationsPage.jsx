@@ -1,15 +1,30 @@
 import { useEffect, useState } from "react";
 
+const PAGE_SIZE = 20;
+
 export default function StationsPage() {
-  // create the state and setter
+  // data from the server
   const [stations, setStations] = useState([]);
+  const [total, setTotal] = useState(0);
+
+  // filters and current page
+  const [q, setQ] = useState("");
+  const [type, setType] = useState("");
+  const [state, setState] = useState("");
+  const [page, setPage] = useState(1);
 
   // useEffect shell
   useEffect(() => {
     // define the async function to load stations from the API
     const loadStations = async () => {
+      // build type, state, query, page
+      const params = new URLSearchParams();
+      if (q) params.set("q", q);
+      if (type) params.set("type", type);
+      if (state) params.set("state", state);
+      params.set("page", page);
       // http response
-      const res = await fetch("/api/stations");
+      const res = await fetch(`/api/stations?${params}`);
 
       if (!res.ok) {
         console.error("failed to fetch stations:", res.statusText);
@@ -20,20 +35,69 @@ export default function StationsPage() {
       const data = await res.json();
       // save it. triggers the re-render
       setStations(data.stations);
+      setTotal(data.total);
     };
 
-    // call async function to load stations
-    loadStations();
-  }, []);
+    // debounce
+    const timeout = setTimeout(loadStations, 300);
+    return () => clearTimeout(timeout);
+  }, [q, type, state, page]);
+
+  const totalPages = Math.ceil(total / PAGE_SIZE);
 
   return (
     <div>
       <h1>Stations</h1>
+
+      <input
+        type="search"
+        placeholder="search by state or city"
+        value={q}
+        onChange={(e) => {
+          setQ(e.target.value);
+          setPage(1);
+        }}
+      />
+
+      <select
+        value={type}
+        onChange={(e) => {
+          setType(e.target.value);
+          setPage(1);
+        }}
+      >
+        <option value="">All Types</option>
+        <option value="air_quality">Air Quality</option>
+        <option value="water_level">Water Level</option>
+        <option value="temperature">Temperature</option>
+      </select>
+
+      <input
+        type="text"
+        placeholder="filter by state"
+        value={state}
+        onChange={(e) => {
+          setState(e.target.value);
+          setPage(1);
+        }}
+      />
+
+      <p>{total} stations found</p>
+
       <ul>
         {stations.map((station) => (
-          <li key={station._id}>{station.name}</li>
+          <li key={station._id}>
+            {station.name} ({station.state}), {station.type}
+          </li>
         ))}
       </ul>
+
+      <button disabled={page <= 1} onClick={() => setPage(page - 1)}>
+        Previous
+      </button>
+      <button disabled={page >= totalPages} onClick={() => setPage(page + 1)}>
+        Next
+      </button>
     </div>
   );
 }
