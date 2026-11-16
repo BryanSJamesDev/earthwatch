@@ -13,6 +13,7 @@ import StationsPage from "./pages/StationsPage.jsx";
 import StationDetailPage from "./pages/StationDetailPage.jsx";
 import StationFormPage from "./pages/StationFormPage.jsx";
 import StationDashboardPage from "./pages/StationDashboardPage.jsx";
+import HomePage from "./pages/HomePage.jsx";
 import "./App.css";
 
 export default function App() {
@@ -38,7 +39,7 @@ export default function App() {
       <NavBar user={user} onLogout={handleLogout} />
       <main className="app-main">
         <Routes>
-          {/* TODO (Milena): home page */}
+          <Route path="/" element={<HomePage />} />
           <Route path="/" element={<Navigate to="/events" replace />} />
           <Route
             path="/login"
