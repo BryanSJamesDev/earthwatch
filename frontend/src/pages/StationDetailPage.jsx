@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { userShape } from "../propShapes.js";
 import ReadingTable from "../components/ReadingTable.jsx";
+import ConfirmDialog from "../components/ConfirmDialog.jsx";
 
 export default function StationDetailPage({ user }) {
   // reads the id part of the URL
   const { id } = useParams();
   const [station, setStation] = useState(null);
   const [error, setError] = useState(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadStation = async () => {
@@ -30,6 +34,19 @@ export default function StationDetailPage({ user }) {
 
     loadStation();
   }, [id]);
+
+  const handleDelete = async () => {
+    setDeleting(true);
+    const res = await fetch(`/api/stations/${id}`, { method: "DELETE" });
+    if (!res.ok) {
+      const data = await res.json();
+      setDeleting(false);
+      setConfirmOpen(false);
+      setError(data.error || "Could not delete this station");
+      return;
+    }
+    navigate("/stations");
+  };
 
   // station wasnt found. show message and a way back for user
   if (error) {
@@ -62,8 +79,27 @@ export default function StationDetailPage({ user }) {
       </p>
 
       {isOwner && (
-        <Link to={`/stations/${station._id}/edit`}>Edit station</Link>
+        <div>
+          <Link to={`/stations/${station._id}/edit`}>Edit station</Link>{" "}
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={() => setConfirmOpen(true)}
+          >
+            Delete station
+          </button>
+        </div>
       )}
+
+      <ConfirmDialog
+        open={confirmOpen}
+        title="Delete this station?"
+        message={`"${station.name}" and all of its readings will be permanently deleted.`}
+        confirmLabel="Delete"
+        busy={deleting}
+        onConfirm={handleDelete}
+        onCancel={() => setConfirmOpen(false)}
+      />
 
       <h2>Readings ({station.readings.length})</h2>
       <ReadingTable
