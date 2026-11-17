@@ -5,11 +5,11 @@ A web app for recording and exploring natural events and tracking environmental 
 - **Live site:** TODO (Rishabh, Milena)
 - **Design documents:**
   - Station Monitor (Milena): TODO (Milena)
-  - Event Tracker (Rishabh): TODO (Rishabh)
+  - Event Tracker (Rishabh): [Design document](docs/design-document-events.pdf)
 - **Video demo and presentation:** TODO (Rishabh, Milena)
-- **Slides:** TODO (Rishabh, Milena)
+- **Slides:** [Presentation](https://docs.google.com/presentation/d/1Qz0Sjyxqo3-u8Q1FVkZ5AhkGZG1RbhNE5olrmL1allw/edit?usp=sharing)
 
-TODO (Rishabh): screenshot
+![Screenshot of the Events page](images/events-screenshot.jpg)
 
 TODO (Milena): screenshot
 
@@ -55,7 +55,9 @@ TODO (Milena)
 
 Model: Claude Opus 5.5 (Claude Code)
 
-TODO (Rishabh)
+- Learning: explanations of Passport sessions stored in MongoDB and MongoDB aggregations
+- Testing and verification: testing the API routes and pages, checking ESLint and Prettier, security verification
+- Dataset: help with writing Faker seed script to generate the 1,200 synthetic events in `data/events.json`
 
 ## Tech Requirements
 

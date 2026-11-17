@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { apiFetch } from "./api.js";
 import NavBar from "./components/NavBar.jsx";
 import RequireAuth from "./components/RequireAuth.jsx";
@@ -40,7 +40,6 @@ export default function App() {
       <main className="app-main">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/" element={<Navigate to="/events" replace />} />
           <Route
             path="/login"
             element={<AuthPage mode="login" onAuth={setUser} />}
