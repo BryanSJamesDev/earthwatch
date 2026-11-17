@@ -3,3 +3,10 @@
   gap: 0.75rem;
   margin: 1rem 0;
 }
+
+.station-pagination {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}

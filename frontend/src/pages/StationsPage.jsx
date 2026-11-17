@@ -102,12 +102,25 @@ export default function StationsPage({ user }) {
         ))}
       </ul>
 
-      <button disabled={page <= 1} onClick={() => setPage(page - 1)}>
-        Previous
-      </button>
-      <button disabled={page >= totalPages} onClick={() => setPage(page + 1)}>
-        Next
-      </button>
+      <div className="station-pagination">
+        <button
+          type="button"
+          disabled={page <= 1}
+          onClick={() => setPage(page - 1)}
+        >
+          Previous
+        </button>
+        <span>
+          Page {page} of {Math.max(totalPages, 1)}
+        </span>
+        <button
+          type="button"
+          disabled={page >= totalPages}
+          onClick={() => setPage(page + 1)}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }
