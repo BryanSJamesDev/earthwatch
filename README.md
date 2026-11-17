@@ -2,16 +2,16 @@
 
 A web app for recording and exploring natural events and tracking environmental monitoring stations, built with Node, Express, MongoDB, and React.
 
-- **Live site:** TODO (Rishabh, Milena)
+- **Live site:** [EarthWatch on Render](https://earthwatch-wypx.onrender.com/)
 - **Design documents:**
-  - Station Monitor (Milena): TODO (Milena)
+  - Station Monitor (Milena): [Design document](docs/design-document-stations.pdf)
   - Event Tracker (Rishabh): [Design document](docs/design-document-events.pdf)
 - **Video demo and presentation:** TODO (Rishabh, Milena)
 - **Slides:** [Presentation](https://docs.google.com/presentation/d/1Qz0Sjyxqo3-u8Q1FVkZ5AhkGZG1RbhNE5olrmL1allw/edit?usp=sharing)
 
-![Screenshot of the Events page](images/events-screenshot.jpg)
+<img src="images/events-screenshot.jpg" alt="Screenshot of the Events page" width="600">
 
-TODO (Milena): screenshot
+<img src="images/stations-screenshot.png" alt="Screenshot of the Stations page" width="600">
 
 ## Project Objective
 
@@ -32,7 +32,14 @@ Anyone can browse events and stations, but users must create an account and log 
 
 ### Station Monitor (Milena Perez-Gerus)
 
-TODO (Milena)
+- Add a monitoring station with a name, city, state, type (air quality, water level, temperature), and a normal range
+- Browse +1,000 stations, with 20 at a time and pagination
+- Search by city and filter by station type and state
+- Station detail page with the station's full reading history where readings outside the normal range are highlighted in red
+- Add, edit, and delete readings on your own stations
+- Edit and delete your own stations. Other users don't see these options and the server does not allow changes from anyone but the station's owner
+- Station dashboard that ranks 10 stations with the most out-of-range readings in the past week or month built with a MongoDB aggregation pipeline
+- **How to use**: open **Stations** in the navigation bar to browse and use the search box and filters to narrow the list. Click a station's name to see its reading history. To add your own, click **Sign up** or **Log in**, then **+ Add station**. Fill in the form. On your station's page, use the reading form to add readings. There are **Edit** and **Delete** buttons for each reading. Open **Station Dashboard** to see which stations had the most out-of-range readings recently.
 
 ### Event Tracker (Rishabh Kumar)
 
@@ -49,7 +56,11 @@ TODO (Milena)
 
 ### Milena Perez-Gerus
 
-TODO (Milena)
+Model: Claude Opus 5.5
+
+- Learning: walkthrough of setting up React with Vite, React hooks, and React Router
+- Debugging: help reading error messages and fixing bugs in imports
+- Dataset: help understanding how to add seed script data to Mockaroo data
 
 ### Rishabh Kumar
 
@@ -65,7 +76,8 @@ Model: Claude Opus 5.5 (Claude Code)
 - [Node.js](https://nodejs.org/) + [Express](https://expressjs.com/) (ES modules)
 - [MongoDB](https://www.mongodb.com/) with the native Node.js driver (no Mongoose)
 - [Passport](https://www.passportjs.org/) (local strategy) with express-session, connect-mongo, and bcryptjs
-- [Faker](https://fakerjs.dev/) to generate the synthetic records
+- [Faker](https://fakerjs.dev/) to generate the synthetic events
+- [Mockaroo](https://www.mockaroo.com/) to generate the synthetic stations
 - ESLint and Prettier
 - Separate `package.json` files for the backend (project root) and the frontend (`frontend/`)
 
@@ -90,7 +102,8 @@ Model: Claude Opus 5.5 (Claude Code)
    docker run --name mongodb -p 27017:27017 -v mongodata:/data/db -d mongodb/mongodb-community-server:latest
 ```
 
-4. Import the mock data: in MongoDB Compass, connect to `mongodb://localhost:27017`, create a database named `earthwatch` with a collection named `events`, and import `data/events.json` (1,200 synthetic events). TODO (Milena): seed stations
+4. Import the mock data: in MongoDB Compass, connect to `mongodb://localhost:27017`, create a database named `earthwatch` with a collection named `events`, and import `data/events.json` (1,200 synthetic events). Then load the stations by running `npm run seed:stations`. It reads `db/data/stations.json` (1,000 stations generated with Mockaroo), adds 20 to 50 readings to each one with dates from the last 60 days, and replaces any stations already in the database.
+
 5. Build the frontend and start the server:
 
 ```bash
@@ -106,7 +119,7 @@ Model: Claude Opus 5.5 (Claude Code)
 
 Use `npm run dev` instead of `npm start` to restart the server automatically when files change.
 
-The events in `data/events.json` are synthetic. The places are real locations where each type of event happens, but the events themselves, their dates, and their details are made up.
+The events in `data/events.json` are synthetic. The places are real locations where each type of event happens, but the events themselves, their dates, and their details are made up. The stations in `db/data/stations.json` and their readings are also synthetic. The cities and states are real but the stations and readings are made up.
 
 ## Authors
 
