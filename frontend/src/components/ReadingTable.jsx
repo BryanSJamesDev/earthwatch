@@ -55,7 +55,7 @@ export default function ReadingTable({
                   </button>{" "}
                   <button
                     type="button"
-                    className="btn btn-danger"
+                    className="delete-button"
                     onClick={() => onDelete(reading)}
                   >
                     Delete

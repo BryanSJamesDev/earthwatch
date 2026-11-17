@@ -5,6 +5,7 @@ import ReadingTable from "../components/ReadingTable.jsx";
 import ReadingForm from "../components/ReadingForm.jsx";
 import ConfirmDialog from "../components/ConfirmDialog.jsx";
 import { STATION_TYPE_LABELS } from "../StationTypes.js";
+import "./StationDetailPage.css";
 
 export default function StationDetailPage({ user }) {
   // reads the id part of the URL
@@ -139,11 +140,16 @@ export default function StationDetailPage({ user }) {
       </p>
 
       {isOwner && (
-        <div>
-          <Link to={`/stations/${station._id}/edit`}>Edit station</Link>{" "}
+        <div className="station-actions">
           <button
             type="button"
-            className="btn btn-danger"
+            onClick={() => navigate(`/stations/${station._id}/edit`)}
+          >
+            Edit station
+          </button>
+          <button
+            type="button"
+            className="delete-button"
             onClick={() => setConfirmOpen(true)}
           >
             Delete station
