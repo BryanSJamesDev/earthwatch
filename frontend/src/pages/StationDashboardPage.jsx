@@ -13,15 +13,21 @@ export default function StationDashboardPage() {
     const loadDashboard = async () => {
       setLoading(true);
       setError("");
-      const res = await fetch(`/api/stations/dashboard?range=${range}`);
-      if (!res.ok) {
-        setError("Could not load the dashboard.");
+      try {
+        const res = await fetch(`/api/stations/dashboard?range=${range}`);
+        if (!res.ok) {
+          setError("Could not load the dashboard.");
+          setLoading(false);
+          return;
+        }
+        const data = await res.json();
+        setStations(data.stations);
         setLoading(false);
-        return;
+      } catch {
+        // the server couldn't be reached at all
+        setError("Could not reach the server. Try again.");
+        setLoading(false);
       }
-      const data = await res.json();
-      setStations(data.stations);
-      setLoading(false);
     };
     loadDashboard();
   }, [range]);

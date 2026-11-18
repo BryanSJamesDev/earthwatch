@@ -21,20 +21,25 @@ export default function StationDetailPage({ user }) {
 
   useEffect(() => {
     const loadStation = async () => {
-      const res = await fetch(`/api/stations/${id}`);
-      // station wasnt found
-      if (res.status === 404) {
-        setError("Station not found");
-        return;
-      }
-      // other error
-      if (!res.ok) {
-        setError("Failed to fetch station");
-        return;
-      }
+      try {
+        const res = await fetch(`/api/stations/${id}`);
+        // station wasnt found
+        if (res.status === 404) {
+          setError("Station not found");
+          return;
+        }
+        // other error
+        if (!res.ok) {
+          setError("Failed to fetch station");
+          return;
+        }
 
-      const data = await res.json();
-      setStation(data);
+        const data = await res.json();
+        setStation(data);
+      } catch {
+        // the server couldn't be reached at all
+        setError("Could not reach the server. Try again.");
+      }
     };
 
     loadStation();

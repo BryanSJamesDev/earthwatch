@@ -19,6 +19,7 @@ export default function StationsPage({ user }) {
   const [type, setType] = useState("");
   const [state, setState] = useState("");
   const [page, setPage] = useState(1);
+  const [error, setError] = useState("");
 
   // useEffect shell
   useEffect(() => {
@@ -30,19 +31,26 @@ export default function StationsPage({ user }) {
       if (type) params.set("type", type);
       if (state) params.set("state", state);
       params.set("page", page);
-      // http response
-      const res = await fetch(`/api/stations?${params}`);
 
-      if (!res.ok) {
-        console.error("failed to fetch stations:", res.statusText);
-        return;
+      try {
+        // http response
+        const res = await fetch(`/api/stations?${params}`);
+
+        if (!res.ok) {
+          setError("Could not load stations. Try again.");
+          return;
+        }
+
+        // parse body
+        const data = await res.json();
+        // save it. triggers the re-render
+        setStations(data.stations);
+        setTotal(data.total);
+        setError("");
+      } catch {
+        // the server couldn't be reached at all
+        setError("Could not reach the server. Try again.");
       }
-
-      // parse body
-      const data = await res.json();
-      // save it. triggers the re-render
-      setStations(data.stations);
-      setTotal(data.total);
     };
 
     // debounce

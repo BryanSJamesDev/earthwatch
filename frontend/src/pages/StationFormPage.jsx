@@ -14,12 +14,17 @@ export default function StationFormPage() {
   useEffect(() => {
     if (!isEdit) return;
     const loadStation = async () => {
-      const res = await fetch(`/api/stations/${id}`);
-      if (!res.ok) {
-        setLoadError("Failed to load station");
-        return;
+      try {
+        const res = await fetch(`/api/stations/${id}`);
+        if (!res.ok) {
+          setLoadError("Failed to load station");
+          return;
+        }
+        setStation(await res.json());
+      } catch {
+        // the server couldn't be reached at all
+        setLoadError("Could not reach the server. Try again.");
       }
-      setStation(await res.json());
     };
     loadStation();
   }, [id, isEdit]);
