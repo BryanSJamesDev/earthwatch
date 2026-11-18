@@ -81,7 +81,7 @@ const fullStations = stations.map((station) => {
 
 // clear old stations
 const stationsCollection = db.collection("stations");
-await stationsCollection.deleteMany({});
+await stationsCollection.deleteMany({ ownerId: null });
 // insert new stations
 const result = await stationsCollection.insertMany(fullStations);
 console.log(`Inserted ${result.insertedCount} stations`);
