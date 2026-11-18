@@ -3,6 +3,10 @@ import { ObjectId } from "mongodb";
 
 const PAGE_SIZE = 20;
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
+
+// escapes regex special characters so search text is matched literally
+const escapeRegex = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 // one page of stations matching the filters (without readings),
 // plus the total for pagination
 export const getStations = async ({ type, state, q, page = 1 }) => {
@@ -10,9 +14,10 @@ export const getStations = async ({ type, state, q, page = 1 }) => {
   if (type) filter.type = type;
   if (state) filter.state = state;
   if (q) {
+    const safeQ = escapeRegex(q);
     filter.$or = [
-      { name: { $regex: q, $options: "i" } },
-      { city: { $regex: q, $options: "i" } },
+      { name: { $regex: safeQ, $options: "i" } },
+      { city: { $regex: safeQ, $options: "i" } },
     ];
   }
 
@@ -104,16 +109,26 @@ export const deleteReading = async (stationId, readingId) => {
   return result.modifiedCount > 0;
 };
 
-// stations with the most out-of-range readings in the last days
+// stations with the most out-of-range readings in the last `days` days,
+// counted back from the most recent reading so the dashboard never goes empty
 export const getOutOfRangeStations = async (days, limit = 10) => {
-  const since = new Date(Date.now() - days * MS_PER_DAY);
   const db = await getDB();
+  const collection = db.collection("stations");
 
-  return db
-    .collection("stations")
+  // find the date of the newest reading in the whole collection
+  const [latest] = await collection
     .aggregate([
       { $unwind: "$readings" },
-      { $match: { "readings.date": { $gte: since } } },
+      { $group: { _id: null, maxDate: { $max: "$readings.date" } } },
+    ])
+    .toArray();
+  const asOf = latest ? latest.maxDate : new Date();
+  const since = new Date(asOf.getTime() - days * MS_PER_DAY);
+
+  const stations = await collection
+    .aggregate([
+      { $unwind: "$readings" },
+      { $match: { "readings.date": { $gte: since, $lte: asOf } } },
       {
         $match: {
           $expr: {
@@ -138,4 +153,6 @@ export const getOutOfRangeStations = async (days, limit = 10) => {
       { $limit: limit },
     ])
     .toArray();
+
+  return { asOf, stations };
 };

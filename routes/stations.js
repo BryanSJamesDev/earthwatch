@@ -69,8 +69,11 @@ const isOwner = (station, user) =>
 // GET /api/stations - one page of stations, with optional filters
 router.get("/", async (req, res) => {
   try {
-    const { type, state, q } = req.query;
-    const page = Number(req.query.page) || 1;
+    const { type, q } = req.query;
+    const state = req.query.state
+      ? String(req.query.state).trim().toUpperCase()
+      : "";
+    const page = Math.max(1, parseInt(req.query.page) || 1);
     const result = await getStations({ type, state, q, page });
     res.json(result);
   } catch (err) {
@@ -84,8 +87,8 @@ router.get("/", async (req, res) => {
 router.get("/dashboard", async (req, res) => {
   try {
     const days = req.query.range === "month" ? 30 : 7;
-    const stations = await getOutOfRangeStations(days);
-    res.json({ range: days === 30 ? "month" : "week", stations });
+    const { asOf, stations } = await getOutOfRangeStations(days);
+    res.json({ range: days === 30 ? "month" : "week", asOf, stations });
   } catch (err) {
     console.error("Error building dashboard:", err);
     res.status(500).json({ error: "Failed to load the dashboard" });
