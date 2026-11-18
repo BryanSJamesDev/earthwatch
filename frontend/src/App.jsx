@@ -78,7 +78,7 @@ export default function App() {
             path="/stations/new"
             element={
               <RequireAuth user={user}>
-                <StationFormPage />
+                <StationFormPage user={user} />
               </RequireAuth>
             }
           />
@@ -86,7 +86,7 @@ export default function App() {
             path="/stations/:id/edit"
             element={
               <RequireAuth user={user}>
-                <StationFormPage />
+                <StationFormPage user={user} />
               </RequireAuth>
             }
           />

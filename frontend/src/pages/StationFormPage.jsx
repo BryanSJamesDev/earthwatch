@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import StationForm from "../components/StationForm.jsx";
+import { userShape } from "../propShapes.js";
 
-export default function StationFormPage() {
+export default function StationFormPage({ user }) {
   // only exists in the edit route
   const { id } = useParams();
   const isEdit = Boolean(id);
@@ -50,6 +51,9 @@ export default function StationFormPage() {
   if (isEdit && !station) {
     return <p>Loading station...</p>;
   }
+  if (isEdit && station.ownerId !== user?._id) {
+    return <p>Only the station's owner can edit it.</p>;
+  }
   return (
     <div>
       <h1>{isEdit ? "Edit Station" : "Create Station"}</h1>
@@ -58,8 +62,11 @@ export default function StationFormPage() {
         onSubmit={handleSubmit}
         submitLabel={isEdit ? "Save Station" : "Create Station"}
       />
+      <Link to={isEdit ? `/stations/${id}` : "/stations"}>Cancel</Link>
     </div>
   );
 }
 
-StationFormPage.propTypes = {};
+StationFormPage.propTypes = {
+  user: userShape,
+};
