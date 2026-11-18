@@ -6,7 +6,7 @@ A web app for recording and exploring natural events and tracking environmental 
 - **Design documents:**
   - Station Monitor (Milena): [Design document](docs/design-document-stations.pdf)
   - Event Tracker (Rishabh): [Design document](docs/design-document-events.pdf)
-- **Video demo and presentation:** TODO (Rishabh, Milena)
+- **Video demo and presentation:** [Video on Youtube](https://youtu.be/npgU2CwNGDI)
 - **Slides:** [Presentation](https://docs.google.com/presentation/d/1Qz0Sjyxqo3-u8Q1FVkZ5AhkGZG1RbhNE5olrmL1allw/edit?usp=sharing)
 
 <img src="images/events-screenshot.jpg" alt="Screenshot of the Events page" width="600">
