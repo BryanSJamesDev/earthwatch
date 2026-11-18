@@ -34,7 +34,7 @@ export default function StationForm({ initialValues, onSubmit, submitLabel }) {
   };
 
   return (
-    <form className="StationForm" onSubmit={handleSubmit}>
+    <form className="station-form" onSubmit={handleSubmit}>
       {error && <p className="station-form-error">{error}</p>}
 
       <label>

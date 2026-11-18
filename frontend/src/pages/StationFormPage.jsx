@@ -40,13 +40,13 @@ export default function StationFormPage() {
   };
 
   if (loadError) {
-    return <p className="error">{loadError}</p>;
+    return <p className="error-message">{loadError}</p>;
   }
   if (isEdit && !station) {
     return <p>Loading station...</p>;
   }
   return (
-    <div className="StationFormPage">
+    <div>
       <h1>{isEdit ? "Edit Station" : "Create Station"}</h1>
       <StationForm
         initialValues={station}
