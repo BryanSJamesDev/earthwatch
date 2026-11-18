@@ -157,6 +157,10 @@ export default function StationDetailPage({ user }) {
         </div>
       )}
 
+      {user && !isOwner && (
+        <p>Only the station's owner can add or change readings.</p>
+      )}
+
       <ConfirmDialog
         open={confirmOpen}
         title="Delete this station?"

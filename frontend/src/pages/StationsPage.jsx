@@ -55,7 +55,11 @@ export default function StationsPage({ user }) {
   return (
     <div>
       <h1>Stations</h1>
-      {user && <Link to="/stations/new">+ Add station</Link>}
+      {user === null && (
+        <p>
+          <Link to="/login">Log in</Link> to add your own stations
+        </p>
+      )}
       <div className="station-filters">
         <input
           type="search"
