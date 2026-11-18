@@ -69,7 +69,9 @@ export default function StationsPage({ user }) {
         </p>
       )}
       <div className="station-filters">
+        <label htmlFor="station-search">City</label>
         <input
+          id="station-search"
           type="search"
           placeholder="search by city"
           value={q}
@@ -79,7 +81,9 @@ export default function StationsPage({ user }) {
           }}
         />
 
+        <label htmlFor="station-type">Type</label>
         <select
+          id="station-type"
           value={type}
           onChange={(e) => {
             setType(e.target.value);
@@ -92,7 +96,9 @@ export default function StationsPage({ user }) {
           <option value="temperature">Temperature</option>
         </select>
 
+        <label htmlFor="station-state">State</label>
         <input
+          id="station-state"
           type="text"
           placeholder="filter by state"
           value={state}
@@ -102,6 +108,12 @@ export default function StationsPage({ user }) {
           }}
         />
       </div>
+
+      {error && (
+        <p className="error-message" role="alert">
+          {error}
+        </p>
+      )}
 
       <p>{total} stations found</p>
 

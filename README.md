@@ -102,7 +102,13 @@ Model: Claude Opus 5.5 (Claude Code)
    docker run --name mongodb -p 27017:27017 -v mongodata:/data/db -d mongodb/mongodb-community-server:latest
 ```
 
-4. Import the mock data: in MongoDB Compass, connect to `mongodb://localhost:27017`, create a database named `earthwatch` with a collection named `events`, and import `data/events.json` (1,200 synthetic events). Then load the stations by running `npm run seed:stations`. It reads `db/data/stations.json` (1,000 stations generated with Mockaroo), adds 20 to 50 readings to each one with dates from the last 60 days, and replaces any stations already in the database.
+By default, the app connects to `mongodb://localhost:27017`. To use another database, such as MongoDB Atlas, skip Docker and set the `MONGODB_URI` environment variable, or put it in a `.env` file in the project folder (it is git-ignored, so your credentials stay private):
+
+```bash
+   MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/
+```
+
+4. Import the mock data: in MongoDB Compass, connect to `mongodb://localhost:27017`, create a database named `earthwatch` with a collection named `events`, and import `data/events.json` (1,200 synthetic events). Then load the stations by running `npm run seed:stations`. It reads `db/data/stations.json` (1,000 stations generated with Mockaroo), adds 20 to 50 readings to each one with dates from the last 60 days, and replaces the seeded stations already in the database (stations created by users are kept).
 
 5. Build the frontend and start the server:
 
@@ -111,11 +117,7 @@ Model: Claude Opus 5.5 (Claude Code)
    npm start
 ```
 
-6. Open [http://localhost:3000](http://localhost:3000). By default, the app connects to `mongodb://localhost:27017`. To use another database, such as MongoDB Atlas, set the `MONGODB_URI` environment variable, or put it in a `.env` file in the project folder (it is git-ignored, so your credentials stay private):
-
-```bash
-   MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/
-```
+6. Open [http://localhost:3000](http://localhost:3000).
 
 Use `npm run dev` instead of `npm start` to restart the server automatically when files change.
 

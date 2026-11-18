@@ -24,6 +24,11 @@ const app = express();
 app.set("trust proxy", 1);
 
 app.use(express.json());
+// express 5 leaves req.body undefined when a request has no json body
+app.use((req, res, next) => {
+  req.body ??= {};
+  next();
+});
 
 app.use(
   session({
